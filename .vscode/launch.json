@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "type": "pwa-chrome",
+      "name": "https://deserie.students.nomoreparties.site/",
+      "request": "launch",
+      "url": "https://deserie.students.nomoreparties.site/"
+    }
+  ]
+}

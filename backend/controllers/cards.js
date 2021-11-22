@@ -1,5 +1,4 @@
 const Card = require('../models/card');
-// const BadRequestError = require('../middlewares/errors/BadRequestError');
 const NotFoundError = require('../middlewares/errors/NotFoundError');
 const AuthorizationError = require('../middlewares/errors/AuthorizationError');
 
@@ -39,7 +38,7 @@ const likeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Card could not be found');
+        throw new NotFoundError('Card not found');
       } else {
         res.send(card);
       }
@@ -55,7 +54,7 @@ const unlikeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Card could not be found');
+        throw new NotFoundError('Card not found');
       } else {
         res.send(card);
       }

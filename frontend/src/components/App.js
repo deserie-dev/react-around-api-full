@@ -65,7 +65,7 @@ function App() {
     if (token) {
     api.getInitialCards(token)
       .then((res) => {
-        setCards(res);
+        setCards(res.user);        // was just (res)
       })  
       .catch((err) => {
         console.log(err);
@@ -120,7 +120,8 @@ function App() {
   }
 
   function handleDeleteCard(card) {
-    api.deleteCard(card._id, token)
+    const isOwn = card._id.owner._id === currentUser._id;
+    api.deleteCard(isOwn, token)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== card._id));
         closeAllPopups();

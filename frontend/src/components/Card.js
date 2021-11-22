@@ -7,10 +7,13 @@ function Card(props) {
   const isLiked = props.card.likes.some(i => i === currentUser._id);
 
   const isUserCard = props.card.owner === currentUser._id;
-  const visibilityState = isUserCard ? "visible" : "hidden";
+  
+  const cardDeleteButtonClassName = `elements__delete-button ${
+    isUserCard ? 'elements__delete-button_visible' : 'elements__delete-button_hiddend'
+  }`;
 
   const cardLikeButtonClassName = `elements__like ${
-    isLiked ? 'elements__like_active' : ''
+    isLiked ? 'elements__like_active' : 'elements__like'
   }`;
   
   function handleClick() {
@@ -28,7 +31,7 @@ function Card(props) {
   return(
     <li className="elements__item">
       <img className="elements__image" alt={props.card.name} src={props.card.link} onClick={handleClick} />
-        <button className="elements__delete-button" style={{ visibility: visibilityState }} type="button" aria-label="trash button" onClick={handleDeleteClick}></button>
+        <button className={cardDeleteButtonClassName} type="button" aria-label="trash button" onClick={handleDeleteClick}></button>
         <div className="elements__heading">
           <h2 className="elements__title">{props.card.name}</h2>
           <div className="elements__like-container">

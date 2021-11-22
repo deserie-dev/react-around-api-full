@@ -23,24 +23,24 @@ cardsRouter.post('/',
     }),
   }), createCard);
 
-cardsRouter.delete('/:id',
+cardsRouter.delete('/:cardId',
   celebrate({
     params: Joi.object().keys({
-      id: Joi.string().hex().length(24),
+      cardId: Joi.string().hex().length(24),
     }),
   }), deleteCardById);
 
 cardsRouter.put('/likes/:cardId',
   celebrate({
-    body: Joi.object().keys({
-      _id: Joi.string().hex().length(24),
+    params: Joi.object().keys({
+      cardId: Joi.string().hex().length(24),
     }),
   }), likeCard);
 
 cardsRouter.delete('/likes/:cardId',
   celebrate({
-    body: Joi.object().keys({
-      _id: Joi.string().hex().length(24),
+    params: Joi.object().keys({
+      cardId: Joi.string().hex().length(24),
     }),
   }), unlikeCard);
 

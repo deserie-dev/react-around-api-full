@@ -17,14 +17,16 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCardById = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.id)
+  Card.findById({ _id: req.params.cardId })
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Card not found');
-      } else if (card.owner.toString() !== req.user._id) {
-        throw new AuthorizationError('You Are Not Authorized To Delete This Card');
       }
-      res.status(200).send({ data: card });
+      if (card.owner.toString() === req.user._id) {
+        return Card.deleteOne(card)
+          .then(() => res.send(card));
+      }
+      throw new AuthorizationError('You Are Not Authorized To Delete This Card');
     })
     .catch(next);
 };
@@ -38,8 +40,9 @@ const likeCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Card could not be found');
+      } else {
+        res.send(card);
       }
-      res.status(200).send(card);
     })
     .catch(next);
 };
@@ -53,8 +56,9 @@ const unlikeCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Card could not be found');
+      } else {
+        res.send(card);
       }
-      res.status(200).send(card);
     })
     .catch(next);
 };

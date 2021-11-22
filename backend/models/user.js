@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const AuthorizationError = require('../middlewares/errors/AuthorizationError');
 
@@ -8,12 +7,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    // validate: {
-    //   validator(v) {
-    //     return validator.isEmail(v);
-    //   },
-    //   message: 'Please enter a valid email address',
-    // },
   },
   password: {
     type: String,
@@ -35,12 +28,6 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
-    // validate: {
-    //   validator(v) {
-    //     return validator.isURL(v);
-    //   },
-    //   message: 'Please enter a valid link',
-    // },
   },
 });
 

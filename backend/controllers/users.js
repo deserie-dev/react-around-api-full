@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const AuthorizationError = require('../middlewares/errors/AuthorizationError');
 const NotFoundError = require('../middlewares/errors/NotFoundError');
+const ConflictError = require('../middlewares/errors/ConflictError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -42,23 +43,37 @@ const getUserById = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
-    .then((hash) => User.create({
-      name: req.body.name,
-      about: req.body.about,
-      avatar: req.body.avatar,
-      email: req.body.email,
-      password: hash,
-    }))
-    .then((user) => res.status(200).send({
-      _id: user._id,
-      name: user.name,
-      about: user.about,
-      avatar: user.avatar,
-      email: user.email,
-    }))
-    .then((user) => res.status(200).send({ data: user.toJSON() }))
-    .catch(next);
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
+  User.findOne({ email })
+    .then((userExists) => {
+      if (userExists) {
+        throw new ConflictError('Email already exists');
+      }
+      bcrypt.hash(password, 10)
+        .then((hash) => User.create({
+          name,
+          about,
+          avatar,
+          email,
+          password: hash,
+        }))
+        .then((user) => res.status(200).send({
+          _id: user._id,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          email: user.email,
+        }));
+    })
+    .catch((err) => {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        throw new ConflictError('User already exists');
+      } else {
+        next(err);
+      }
+    });
 };
 
 const updateProfile = (req, res, next) => {

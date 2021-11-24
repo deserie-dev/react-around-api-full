@@ -1,6 +1,6 @@
 const Card = require('../models/card');
 const NotFoundError = require('../middlewares/errors/NotFoundError');
-const AuthorizationError = require('../middlewares/errors/AuthorizationError');
+const ForbiddenError = require('../middlewares/errors/ForbiddenError');
 
 const getCards = (req, res, next) => {
   Card.find({})
@@ -21,7 +21,7 @@ const deleteCardById = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Card not found');
       } else if (card.owner.toString() !== req.user._id) {
-        throw new AuthorizationError('You Are Not Authorized To Delete This Card');
+        throw new ForbiddenError('You Are Not Authorized To Delete This Card');
       }
       res.status(200).send({ data: card });
     })

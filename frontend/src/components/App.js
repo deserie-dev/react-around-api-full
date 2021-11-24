@@ -65,7 +65,7 @@ function App() {
     if (token) {
     api.getInitialCards(token)
       .then((res) => {
-        setCards(res.user);   
+        setCards(res);   
       })  
       .catch((err) => {
         console.log(err);

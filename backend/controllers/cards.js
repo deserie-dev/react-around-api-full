@@ -16,16 +16,15 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCardById = (req, res, next) => {
-  Card.findById({ _id: req.params.cardId })
+  Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Card not found');
       }
-      if (card.owner.toString() === req.user._id) {
-        return Card.deleteOne(card)
-          .then(() => res.send(card));
+      if (req.user._id.toString() !== card.owner.toString()) {
+        throw new AuthorizationError('You Are Not Authorized To Delete This Card');
       }
-      throw new AuthorizationError('You Are Not Authorized To Delete This Card');
+      return Card.remove(card).then(() => { res.send({ data: card }); });
     })
     .catch(next);
 };
@@ -37,10 +36,10 @@ const likeCard = (req, res, next) => {
     { new: true },
   )
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Card not found');
+      if (card) {
+        res.status(200).send(card);
       } else {
-        res.send(card);
+        throw new NotFoundError('Card not found');
       }
     })
     .catch(next);
@@ -53,10 +52,10 @@ const unlikeCard = (req, res, next) => {
     { new: true },
   )
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Card not found');
+      if (card) {
+        res.status(200).send(card);
       } else {
-        res.send(card);
+        throw new NotFoundError('Card not found');
       }
     })
     .catch(next);

@@ -16,15 +16,14 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCardById = (req, res, next) => {
-  Card.findById(req.params.cardId)
+  Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Card not found');
-      }
-      if (req.user._id.toString() !== card.owner.toString()) {
+      } else if (card.owner.toString() !== req.user._id) {
         throw new AuthorizationError('You Are Not Authorized To Delete This Card');
       }
-      return Card.remove(card).then(() => { res.send({ data: card }); });
+      res.status(200).send({ data: card });
     })
     .catch(next);
 };

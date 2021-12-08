@@ -1,11 +1,13 @@
 # YPracticum Web Developer Bootcamp: Project 15
 
-This repository contains the full API of "Around the U.S." project that features user authorization and user registration and handles cards and users.
-
----
-
 **Live Site Deployed on Google Cloud Platform**
 [https://deserie.students.nomoreparties.site/signin](https://deserie.students.nomoreparties.site/signin)
+
+You can use the following details to log in:
+
+email: deserie.demo@gmail.com
+
+password: 12345
 
 ---
 

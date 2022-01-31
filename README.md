@@ -1,5 +1,11 @@
 # YPracticum Web Developer Bootcamp: Project 15
 
+---
+
+**PLEASE NOTE: I'm migrating this site to AWS. It will be back up in January 2022.**
+
+---
+
 **Live Site Deployed on Google Cloud Platform**
 [https://deserie.students.nomoreparties.site/signin](https://deserie.students.nomoreparties.site/signin)
 

@@ -1,20 +1,29 @@
 variable "region" {
   description = "AWS region to create resources needed for the react-around-api-full application"
-  type = string
-  default = "us-east-2"
-}
-
-variable "instance_type" {
-  type = string
-  description = "EC2 instance type for launch template"
-  default = "t2.micro"
+  type        = string
+  default     = "us-east-1"
 }
 
 variable "nginx_port" {
-  type = string
   description = "Nginx port"
-  default = 80
+  type        = number
+  default     = 80
 }
 
-ami = "ami-0570553cbc6f0e057"
- instance_type = "t2.micro"
+variable "alb_name" {
+  description = "The name of the ALB"
+  type        = string
+  default     = "terraform-asg-example"
+}
+
+variable "instance_security_group_name" {
+  description = "The name of the security group for the EC2 Instances"
+  type        = string
+  default     = "terraform-example-instance"
+}
+
+variable "alb_security_group_name" {
+  description = "The name of the security group for the ALB"
+  type        = string
+  default     = "terraform-example-alb"
+}

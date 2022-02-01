@@ -15,18 +15,12 @@
         rule: allow
         port: "80"
         proto: tcp
-    - name: Get Nodejs apt key
-      apt_key:
-        url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
-        state: present
-    - name: Install Nodejs version 12 binary
-      apt_repository:
-        repo: "deb https://deb.nodesource.com/node_12.x bionic main"
-        state: present
-    - name: Install Node
-      apt:
-        name: nodejs
-        state: present
+    - name: Install Node.js (1/2)
+      shell: "curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -"
+      args:
+        warn: false
+    - name: Install Node.js (2/2)
+      shell: sudo apt-get install -y nodejs
     - name: Install MongoDB
       apt:
         name: mongodb
